@@ -24,7 +24,7 @@ Outputs:
 +optTarget: estimated target concept  
 +optObjVal: Final Objective Function value  
 +b_mu: Background Mean to be used in ACE or SMF detector with test data  
-+sig_inv_half: Square root of background covariance, Use sig_inv_half'*sig_inv_half as covariance in ACE or SMF detector with test data 
++sig_inv_half: Square root of background covariance, Use sig_inv_half'*sig_inv_half as covariance in ACE or SMF detector with test data   
 +init_t: initial target concept   
 
 ****************************************************************
