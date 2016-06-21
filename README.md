@@ -33,6 +33,7 @@ Files explanation:
 Latest Revision: June 2016
 
 +ace_det.m : ACE Target Detector Code  
++ace_det_local.m : ACE Target Detector Code that takes in a mask for HSI 
 +Demo_MUUFLGulfport.m: Demo script to run MI-SMF and MI-ACE on MUUFLGulfport Hyperspectral Data  
 +Demo_SimulatedHSIData.m: Demo script to run MI-SMF and MI-ACE on simulated Hyperspectral Data  
 +FUMI: sub-module containing repository to generate simulated hyperspectral data, This repository can be found here: https://github.com/TigerSense/FUMI  
