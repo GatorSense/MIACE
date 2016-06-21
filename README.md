@@ -35,7 +35,7 @@ Latest Revision: June 2016
 +ace_det.m : ACE Target Detector Code  
 +Demo_SimulatedHSIData.m: Demo script to run MI-SMF and MI-ACE on simulated Hyperspectral Data  
 +FUMI: sub-module containing repository to generate simulated hyperspectral data, This repository can be found here: https://github.com/TigerSense/FUMI  
-Please see: https://git-scm.com/book/en/v2/Git-Tools-Submodules for cloning a repository with submodules
+Please see: https://git-scm.com/book/en/v2/Git-Tools-Submodules for cloning a repository with submodules  
 +LICENSE: License for this code  
 +miTarget.m: Main MI-SMF and MI-ACE function and implementation  
 +miTargetParameters.m:  Function to set miTarget parameters  
