@@ -1,3 +1,6 @@
 [submodule "FUMI"]
 	path = FUMI
 	url = https://github.com/TigerSense/FUMI/
+[submodule "MUUFLGulfport"]
+	path = MUUFLGulfport
+	url = https://github.com/TigerSense/MUUFLGulfport

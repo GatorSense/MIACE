@@ -9,11 +9,12 @@
 % 3) Scores MI-ACE and MI-SMF on Test Data
 %
 %
-
+%%
 %Add Paths
 addpath('../FUMI/gen_synthetic_data_code')
 addpath('../FUMI/synthetic_data')
-
+%%
+%Set Parameters
 NumReps = 3;
 
 %Data Set Generation Parameters
@@ -53,6 +54,8 @@ test_settings(1).Pt_mean = [.15];
 test_settings(1).sigma = 10;
 test_settings(1).expect_SdB = 30;
 
+%%
+%Run Methods and Save Results
 results = {}; 
 table = []; 
 
@@ -106,13 +109,16 @@ for iter = 1:NumReps
     end
 end
 
+%%
+%Cler Unnecessary files and plot results
 clear ace_out bag_number dataBags denom E_minus E_t expect_SdB i iter j labels labels_bag labels_point_test method_list N_b n_settings n_tar num_nbags num_pbags num_points NumTotalPoints Pt_mean sigma smf_out TotalNumberBags value X_test X_train
 
 labels1 = {};
 labels2 = {};
-figure(101); clf; for i = 1:NumReps
-subplot(1,2,1); plot(results{i}.smf.optDict); labels1{end+1} = ['SMF Target Concept - Run', num2str(i)]; hold on; plot(results{i}.ace.optDict); labels1{end+1} = ['ACE Target Concept - Run', num2str(i)];
-subplot(1,2,2); plot(results{i}.smf.xx, results{i}.smf.yy ); labels2{end+1} = ['SMF ROC - Run', num2str(i)]; hold on; plot(results{i}.ace.xx, results{i}.ace.yy); labels2{end+1} = ['ACE ROC - Run', num2str(i)];
+figure(101); clf; 
+for i = 1:NumReps
+    subplot(1,2,1); plot(results{i}.smf.optDict); labels1{end+1} = ['SMF Target Concept - Run', num2str(i)]; hold on; plot(results{i}.ace.optDict); labels1{end+1} = ['ACE Target Concept - Run', num2str(i)];
+    subplot(1,2,2); plot(results{i}.smf.xx, results{i}.smf.yy ); labels2{end+1} = ['SMF ROC - Run', num2str(i)]; hold on; plot(results{i}.ace.xx, results{i}.ace.yy); labels2{end+1} = ['ACE ROC - Run', num2str(i)];
 end
 subplot(1,2,1); legend(labels1); axis([0 212 -0.2 0.2 ]); xlabel('Band Number'); 
 subplot(1,2,2); legend(labels2);axis([0 1 0 1]);  xlabel('Probability of False Alarm'); ylabel('Probability of Detection'); 
