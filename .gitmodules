@@ -1,0 +1,3 @@
+[submodule "FUMI"]
+	path = FUMI
+	url = https://github.com/TigerSense/FUMI/
