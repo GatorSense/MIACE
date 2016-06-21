@@ -1,4 +1,4 @@
-
+clear all; clc; 
 %%
 %Demo Script: Run MI-SMF and MI-ACE on Simulated Data
 % This Demo:
@@ -11,8 +11,8 @@
 %
 %%
 %Add Paths
-addpath('../FUMI/gen_synthetic_data_code')
-addpath('../FUMI/synthetic_data')
+addpath('FUMI/gen_synthetic_data_code')
+addpath('FUMI/synthetic_data')
 %%
 %Set Parameters
 NumReps = 3;

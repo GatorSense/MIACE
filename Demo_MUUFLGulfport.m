@@ -1,6 +1,6 @@
-
+clear all; clc; 
 %%
-%Demo Script: Run MI-SMF and MI-ACE on Gulfport Data
+%Demo: Run MI-SMF and MI-ACE on Gulfport Data
 % This Demo:
 % 1) Runs MI-ACE and MI-SMF on Training MUUFL Gulfport Data
 % 2) Scores MI-ACE and MI-SMF on Test Data using Bullwinkle code
