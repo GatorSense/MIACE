@@ -133,7 +133,7 @@ function [init_t, optObjVal, pBagsMax] = init1(pDataBags, nDataBags, parameters)
 pData = vertcat(pDataBags{:});
 
 tempObjVal = zeros(1,size(pData,1));
-for j = 1:size(pData,1)
+for j = 1:size(pData,1) %if large amount of data, can make this parfor loop
     optTarget = pData(j,:);
     tempObjVal(j) = evalObjectiveWhitened(pDataBags, nDataBags, optTarget,parameters.softmaxFlag);
 end

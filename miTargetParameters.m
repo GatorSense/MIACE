@@ -2,7 +2,7 @@ function parameters = miTargetParameters()
 
 
     parameters.methodFlag = 0;  %Set to 0 for MI-SMF, Set to 1 for MI-ACE
-    parameters.initType = 2; %Options: 1, 2, or 3.  InitType 1 is to use best positive instance based on objective function value, type 2 is to select positive instance with smallest cosine similarity with negative instance mean, type 3 is random selection of instance from positive bag
+    parameters.initType = 1; %Options: 1, 2, or 3.  InitType 1 is to use best positive instance based on objective function value, type 2 is to select positive instance with smallest cosine similarity with negative instance mean, type 3 is random selection of instance from positive bag
     parameters.globalBackgroundFlag = 0;  %Set to 1 to use global mean and covariance, set to 0 to use negative bag mean and covariance
     parameters.softmaxFlag = 0; %Set to 0 to use max, set to 1 to use softmax in computation of objective function values of positive bags
     parameters.posLabel = 1; %Value used to indicate positive bags, usually 1
