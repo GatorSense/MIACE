@@ -12,6 +12,7 @@ end
 
 nBags = length(dataBags);
 nDim = size(dataBags{1},2);
+nPBags = sum(labels == parameters.posLabel);
 
 %Estimate background mean and inv cov
 if(parameters.globalBackgroundFlag)    
@@ -69,7 +70,11 @@ continueFlag = 1;
 while(continueFlag && iter < parameters.maxIter  )
     iter = iter + 1;
 
-    pMean = mean(pBagsMax);
+    if(nPBags > 1)
+        pMean = mean(pBagsMax);
+    else
+        pMean = pBagsMax;
+    end
     t = pMean - nMean;
     optTarget = t/norm(t);
 
@@ -78,6 +83,9 @@ while(continueFlag && iter < parameters.maxIter  )
     
     if(any([objTracker.val] == optObjVal))
         loc = ([objTracker.val] == optObjVal);
+        if(length(loc) > 1)
+            loc = loc(end);
+        end
         if(~sum(abs(objTracker(loc).target - optTarget)))
             continueFlag = 0;
             disp(['Stopping at iter: ', num2str(iter)])
