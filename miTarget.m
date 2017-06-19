@@ -167,7 +167,7 @@ nDim = size(pData,2);
 pdenom = sqrt(repmat(sum(pData.*pData, 2), [1, nDim]));
 ndenom = sqrt(repmat(sum(nData.*nData, 2), [1, nDim]));
 pData = pData./pdenom;
-nData = nData./pdenom;
+nData = nData./ndenom;
 
 nDataMean = mean(nData);
 
