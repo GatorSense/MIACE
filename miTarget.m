@@ -1,13 +1,15 @@
 function [optTarget, optObjVal, b_mu, sig_inv_half, init_t] = miTarget(dataBags, labels, parameters)
 
 if(nargin <3)
-    parameters.methodFlag = 0;  %Set to 0 for MI-SMF, Set to 1 for MI-ACE
+    parameters.methodFlag = 1;  %Set to 0 for MI-SMF, Set to 1 for MI-ACE
     parameters.globalBackgroundFlag = 0;  %Set to 1 to use global mean and covariance, set to 0 to use negative bag mean and covariance
     parameters.initType = 1; %Options: 1, 2, or 3.  InitType 1 is to use best positive instance based on objective function value, type 2 is to select positive instance with smallest cosine similarity with negative instance mean, type 3 is random selection of instance from positive bag
     parameters.softmaxFlag = 0; %Set to 0 to use max, set to 1 to use softmax in computation of objective function values of positive bags
     parameters.posLabel = 1; %Value used to indicate positive bags, usually 1
     parameters.negLabel = 0; %Value used to indicate negative bags, usually 0 or -1
     parameters.maxIter = 100; %Maximum number of iterations (rarely used)
+    parameters.initsampleflag = 0; % Set to 0 if using all points in initialization 1, set to 1 if sampling some points in initialization 1
+    parameters.sampltpor = 0.1; % the sampling percentage if parameters.initsampleflag = 1
 end
 
 nBags = length(dataBags);
@@ -79,6 +81,7 @@ while(continueFlag && iter < parameters.maxIter  )
     optTarget = t/norm(t);
 
     %Update Objective and Determine the max points in each bag
+    
     [optObjVal, pBagsMax] = evalObjectiveWhitened(pDataBags, nDataBags, optTarget,parameters.softmaxFlag);
     
     if(any([objTracker.val] == optObjVal))
@@ -140,13 +143,28 @@ function [init_t, optObjVal, pBagsMax] = init1(pDataBags, nDataBags, parameters)
 
 pData = vertcat(pDataBags{:});
 
-tempObjVal = zeros(1,size(pData,1));
-for j = 1:size(pData,1) %if large amount of data, can make this parfor loop
-    optTarget = pData(j,:);
+if parameters.initsampleflag == 0
+    
+    pData_reduced = pData;
+    
+elseif parameters.initsampleflag == 1
+    
+    temp = randperm(size(pData,1));
+    samplepts = round(size(pData,1)*parameters.sampltpor);
+    pData_reduced = pData(temp(1:samplepts),:);
+    
+else
+    disp('error input of parameters.initsampleflag')
+end
+
+tempObjVal = zeros(1,size(pData_reduced,1));
+for j = 1:size(pData_reduced,1) %if large amount of data, can make this parfor loop
+    j
+    optTarget = pData_reduced(j,:);
     tempObjVal(j) = evalObjectiveWhitened(pDataBags, nDataBags, optTarget,parameters.softmaxFlag);
 end
 [~, opt_loc] = max(tempObjVal);
-optTarget = pData(opt_loc,:);
+optTarget = pData_reduced(opt_loc,:);
 optTarget = optTarget/norm(optTarget);
 init_t = optTarget;
 [optObjVal, pBagsMax] = evalObjectiveWhitened(pDataBags, nDataBags, optTarget,parameters.softmaxFlag);

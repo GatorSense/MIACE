@@ -1,4 +1,6 @@
-function [ace_data,mu,siginv] = ace_det(hsi_data,tgt_sig,mu,siginv)
+function [ace_data,mu,siginv] = ace_det(hsi_data,tgt_sig,mu,siginv,targflag)
+% input anything for targflag if target signature is pulled from data
+
 
 
 if isempty(mu)
@@ -8,9 +10,11 @@ if isempty(siginv)
     siginv = pinv(cov(hsi_data'));
 end
 
-%For target signatures pulled from data, use line 13 instead of 14
-% s = tgt_sig - mu;
+if (nargin <5)
 s = tgt_sig;
+else
+s = tgt_sig - mu;
+end
 z = bsxfun(@minus,hsi_data,mu);
 
 st_siginv = s'*siginv;

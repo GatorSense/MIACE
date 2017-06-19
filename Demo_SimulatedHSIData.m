@@ -88,6 +88,8 @@ for iter = 1:NumReps
         %Run SMF init1
         parameters.methodFlag = 0;
         parameters.initType = 1;
+        parameters.initsampleflag = 0;
+        parameters.sampltpor = 0.1;
         [results{iter,n_settings}.smf.optDict, ~, results{iter,n_settings}.smf.b_mu, results{iter,n_settings}.smf.sig_inv_half] = miTarget(dataBags, labels, parameters);
         [smf_out] = smf_det(X_test,results{iter,n_settings}.smf.optDict',results{iter,n_settings}.smf.b_mu',results{iter,n_settings}.smf.sig_inv_half'*results{iter,n_settings}.smf.sig_inv_half)';
         [results{iter,n_settings}.smf.xx,results{iter,n_settings}.smf.yy,~,results{iter,n_settings}.smf.auc] = perfcurve(labels_point_test,smf_out,1);
@@ -95,6 +97,8 @@ for iter = 1:NumReps
         %Run ACE init1
         parameters.methodFlag = 1;
         parameters.initType = 1;
+        parameters.initsampleflag = 0;
+        parameters.sampltpor = 0.1;
         [results{iter,n_settings}.ace.optDict, ~, results{iter,n_settings}.ace.b_mu, results{iter,n_settings}.ace.sig_inv_half] = miTarget(dataBags, labels, parameters);
         [ace_out] = ace_det(X_test,results{iter,n_settings}.ace.optDict',results{iter,n_settings}.ace.b_mu',results{iter,n_settings}.ace.sig_inv_half'*results{iter,n_settings}.ace.sig_inv_half)';
         [results{iter,n_settings}.ace.xx,results{iter,n_settings}.ace.yy,~,results{iter,n_settings}.ace.auc] = perfcurve(labels_point_test,ace_out,1);
