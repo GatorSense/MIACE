@@ -87,13 +87,3 @@ confid_out = ace_det_local(hsi_img,tar_sig',hsi.valid_mask,B_mu',inv_B_cov);
 confid_score{2} =score_hylid_perpixel(hsi,confid_out,scoring_para,'MIACE','det_fig',[],'roc_fig',250);
 figure(250);axis([0 0.001 0 1])
 
-
-
-
-
-
-
-
-
-
-

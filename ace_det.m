@@ -2,7 +2,6 @@ function [ace_data,mu,siginv] = ace_det(hsi_data,tgt_sig,mu,siginv,targflag)
 % input anything for targflag if target signature is pulled from data
 
 
-
 if isempty(mu)
     mu = mean(hsi_data,2);
 end

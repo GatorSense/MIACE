@@ -126,3 +126,4 @@ for i = 1:NumReps
 end
 subplot(1,2,1); legend(labels1); axis([0 212 -0.2 0.2 ]); xlabel('Band Number'); 
 subplot(1,2,2); legend(labels2);axis([0 1 0 1]);  xlabel('Probability of False Alarm'); ylabel('Probability of Detection'); 
+

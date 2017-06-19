@@ -1,5 +1,6 @@
 function [optTarget, optObjVal, b_mu, sig_inv_half, init_t] = miTarget(dataBags, labels, parameters)
 
+
 if(nargin <3)
     parameters.methodFlag = 1;  %Set to 0 for MI-SMF, Set to 1 for MI-ACE
     parameters.globalBackgroundFlag = 0;  %Set to 1 to use global mean and covariance, set to 0 to use negative bag mean and covariance
