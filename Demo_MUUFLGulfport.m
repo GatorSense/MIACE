@@ -69,8 +69,7 @@ hsi_img = double(hsi.Data);
 
 %%%%%MI-SMF
 confid_score={};
-parameters.initsampleflag = 0;
-parameters.sampltpor = 0.1;
+parameters.samplePor = 1;
 [tar_sig,~, B_mu, sig_inv_half] = miTarget(dataBags, labelsB, parameters);
 B_mu = zeros(size(B_mu));
 inv_B_cov=sig_inv_half'*sig_inv_half;
@@ -80,8 +79,7 @@ figure(150);axis([0 0.001 0 1])
 
 %%%%%MI-ACE
 parameters.methodFlag = 1;  %Set to 0 for MI-SMF, Set to 1 for MI-ACE
-parameters.initsampleflag = 0;
-parameters.sampltpor = 0.1;
+parameters.samplePor = 1;
 [tar_sig] = miTarget(dataBags, labelsB, parameters);
 confid_out = ace_det_local(hsi_img,tar_sig',hsi.valid_mask,B_mu',inv_B_cov);
 confid_score{2} =score_hylid_perpixel(hsi,confid_out,scoring_para,'MIACE','det_fig',[],'roc_fig',250);
