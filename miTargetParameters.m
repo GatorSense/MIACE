@@ -7,4 +7,5 @@ parameters.softmaxFlag = 0; %Set to 0 to use max, set to 1 to use softmax in com
 parameters.posLabel = 1; %Value used to indicate positive bags, usually 1
 parameters.negLabel = 0; %Value used to indicate negative bags, usually 0 or -1
 parameters.maxIter = 100; %Maximum number of iterations (rarely used)
-parameters.samplePor = 1; % Percentage of positive data points used to initialize (default = 1)
+parameters.samplePor = 1; % If using init1, percentage of positive data points used to initialize (default = 1) 
+parameters.initK = 100; % If using init3, number of clusters used to initialize (default = 1000);

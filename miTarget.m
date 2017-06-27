@@ -4,7 +4,7 @@ function [optTarget, optObjVal, b_mu, sig_inv_half, init_t] = miTarget(dataBags,
 if(nargin <3)
     parameters.methodFlag = 1;  %Set to 0 for MI-SMF, Set to 1 for MI-ACE
     parameters.globalBackgroundFlag = 0;  %Set to 1 to use global mean and covariance, set to 0 to use negative bag mean and covariance
-    parameters.initType = 1; %Options: 1, 2, or 3.  InitType 1 is to use best positive instance based on objective function value, type 2 is to select positive instance with smallest cosine similarity with negative instance mean
+    parameters.initType = 1; %Options: 1, 2, or 3.  InitType 1 is to use best positive instance based on objective function value, type 2 is to select positive instance with smallest cosine similarity with negative instance mean, type 3 clusters the data with k-means and selects the best cluster center as the initial target signature
     parameters.softmaxFlag = 0; %Set to 0 to use max, set to 1 to use softmax in computation of objective function values of positive bags
     parameters.posLabel = 1; %Value used to indicate positive bags, usually 1
     parameters.negLabel = 0; %Value used to indicate negative bags, usually 0 or -1
@@ -15,6 +15,8 @@ end
 nBags = length(dataBags);
 nDim = size(dataBags{1},2);
 nPBags = sum(labels == parameters.posLabel);
+
+disp('Whitening...') 
 
 %Estimate background mean and inv cov
 if(parameters.globalBackgroundFlag)    
@@ -42,6 +44,7 @@ for i = 1:nBags
     end
 end
 
+
 %Set up initial target signature, choose the best sample from the positive bags
 pDataBags = dataBagsWhitened(labels ==  parameters.posLabel);
 nDataBags = dataBagsWhitened(labels == parameters.negLabel);
@@ -50,9 +53,12 @@ if(parameters.initType == 1)
     [init_t, optObjVal, pBagsMax] = init1(pDataBags, nDataBags, parameters);
 elseif(parameters.initType == 2)
     [init_t, optObjVal, pBagsMax] = init2(pDataBags, nDataBags, parameters);
+else
+    [init_t, optObjVal, pBagsMax] = init3(pDataBags, nDataBags, parameters);
 end
 optTarget = init_t;
 
+disp('Optimizing...') 
 
 %Precompute term 2 in update equation
 nMean = zeros(length(nDataBags), nDim); 
@@ -139,6 +145,9 @@ end
 
 function [init_t, optObjVal, pBagsMax] = init1(pDataBags, nDataBags, parameters)
 
+disp('Initializing...');
+
+
 pData = vertcat(pDataBags{:});
 temp = randperm(size(pData,1));
 samplepts = round(size(pData,1)*parameters.samplePor);
@@ -158,6 +167,9 @@ end
 
 
 function [init_t, optObjVal, pBagsMax] = init2(pDataBags, nDataBags, parameters)
+
+disp('Initializing...');
+
 
 %Select data point with smallest cosine of the vector angle to background
 %data
@@ -179,5 +191,30 @@ init_t = optTarget;
 [optObjVal, pBagsMax] = evalObjectiveWhitened(pDataBags, nDataBags, optTarget,parameters.softmaxFlag);
 
 end
+
+
+function [init_t, optObjVal, pBagsMax] = init3(pDataBags, nDataBags, parameters)
+
+disp('Initializing...');
+
+%Run K-means and initialize with the best of the cluster centers
+pData = vertcat(pDataBags{:});
+
+[idx, C] = kmeans(pData, min(size(pData,1),parameters.initK));
+
+tempObjVal = zeros(1,length(unique(idx)));
+for j = 1:size(C,1) %if large amount of data, can make this parfor loop
+    optTarget = C(j,:)/norm(C(j,:));
+    tempObjVal(j) = evalObjectiveWhitened(pDataBags, nDataBags, optTarget, parameters.softmaxFlag);
+end
+[~, opt_loc] = max(tempObjVal);
+optTarget = C(opt_loc,:);
+optTarget = optTarget/norm(optTarget);
+init_t = optTarget;
+[optObjVal, pBagsMax] = evalObjectiveWhitened(pDataBags, nDataBags, optTarget,parameters.softmaxFlag);
+
+
+end
+
 
 
