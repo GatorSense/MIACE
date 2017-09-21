@@ -1,5 +1,29 @@
-function [smf_data,mu,siginv] = smf_det(hsi_data,tgt_sig,mu,siginv,targflag)
-% input anything for targflag if target signature is pulled from data
+function [smf_data,mu,siginv] = smf_det(hsi_data,tgt_sig,mu,siginv,target_flag)
+% SMF Spectral Matched Filter
+%
+% Syntax:  [smf_data,mu,siginv] = smf_det(hsi_data,tgt_sig,mu,siginv)
+%
+% Inputs:
+%   hsi_data - DxN array of N data points of dimensionality D
+%   tgt_sig - Dx1 vector containing the target signature
+%   mu - Dx1 vector containing the background mean vector, if empty,
+%       computed as mean of all hsi_data
+%   siginv - DxD matrix containing the inverse background covariance, if
+%       empty, computed from all hsi_data
+%   target_flag - flag indicating whether mean should be subtracted from
+%   	target signatures or not, set to anything if mean should be subtracted.
+% Outputs:
+%   smf_data - Nx1 vector of SMF confidence values corresponding to each
+%       test point
+%   mu - Dx1 vector containing the background mean vector
+%   siginv - DxD matrix containing the inverse background covariance
+%
+% University of Florida, Electrical and Computer Engineering
+% Email Address: azare@ufl.edu
+% Latest Revision: September 21, 2017
+% This product is Copyright (c) 2017 University of Florida
+% All rights reserved.
+
 
 
 if isempty(mu)

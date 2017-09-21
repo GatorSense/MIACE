@@ -1,6 +1,45 @@
 function [optTarget, optObjVal, b_mu, sig_inv_half, init_t] = miTarget(dataBags, labels, parameters)
 
 
+% MIACE/MISMF Multiple Instance Adaptive Cosine Estimator/Multiple Instance
+%       Spectral Matched Filter Demo
+%
+% Syntax:  [optTarget, optObjVal, b_mu, sig_inv_half, init_t] = miTarget(dataBags, labels, parameters)
+%
+% Inputs:
+%   dataBags - 1xB cell array where each cell contains an NxD matrix of N data points of
+%       dimensionality D (i.e.  N pixels with D spectral bands, each pixel is
+%       a row vector).  Total of B cells. 
+%   labels - 1XB array containing the bag level labels corresponding to
+%       each cell of the dataBags cell array
+%   parameters - struct - The struct contains the following fields:
+%                   1. parameters.methodFlag: Set to 0 for MI-SMF, Set to 1 for MI-ACE
+%                   2. parameters.initType: Options are 1, 2, or 3. 
+%                   3. parameters.globalBackgroundFlag: set to 1 to use global mean and covariance, set to 0 to use negative bag mean and covariance
+%                   4. parameters.softmaxFlag: Set to 0 to use max, set to
+%                       1 to use softmax in computation of objective function
+%                       values of positive bags  (This is generally not used
+%                       and fixed at 0)
+%                   5. parameters.posLabel: Value used to indicate positive
+%                   bags, usually 1
+%                   6. parameters.negLabel: Value used to indicate negative bags, usually 0 or -1
+%                   7. parameters.maxIter: Maximum number of iterations (rarely used)
+%                   8. parameters.samplePor: If using init1, percentage of positive data points used to initialize (default = 1) 
+%                   9. parameters.initK = 1000; % If using init3, number of clusters used to initialize (default = 1000);
+% Outputs:
+%   endmembers - double Mat - NxM matrix of M endmembers with N spectral
+%       bands
+%   P - double Mat - NxM matrix of abundances corresponding to M input
+%       pixels and N endmembers
+%
+% Author: Alina Zare
+% University of Florida, Electrical and Computer Engineering
+% Email Address: azare@ufl.edu
+% Latest Revision: September 21, 2017
+% This product is Copyright (c) 2017 University of Florida
+% All rights reserved.
+
+
 if(nargin <3)
     parameters.methodFlag = 1;  %Set to 0 for MI-SMF, Set to 1 for MI-ACE
     parameters.globalBackgroundFlag = 0;  %Set to 1 to use global mean and covariance, set to 0 to use negative bag mean and covariance
@@ -11,6 +50,7 @@ if(nargin <3)
     parameters.maxIter = 1000; %Maximum number of iterations (rarely used)
     parameters.samplePor = 1; % Percentage of positive data points used to initialize (default = 1)
     parameters.initK = 1000; % If using init3, number of clusters used to initialize (default = 1000);
+    parameters.numB = 5; %Number of background clusters (and optimal targets) to be estimated
 end
 
 nBags = length(dataBags);
@@ -201,9 +241,13 @@ disp('Initializing...');
 %Run K-means and initialize with the best of the cluster centers
 pData = vertcat(pDataBags{:});
 
-[idx, C] = kmeans(pData, min(size(pData,1),parameters.initK), 'MaxIter', parameters.maxIter);
+if(isempty(parameters.C))
+    [~, C] = kmeans(pData, min(size(pData,1),parameters.initK), 'MaxIter', parameters.maxIter);
+else
+    C = parameters.C;
+end
 
-tempObjVal = zeros(1,length(unique(idx)));
+tempObjVal = zeros(1,size(C,1));
 for j = 1:size(C,1) %if large amount of data, can make this parfor loop
     optTarget = C(j,:)/norm(C(j,:));
     tempObjVal(j) = evalObjectiveWhitened(pDataBags, nDataBags, optTarget, parameters.softmaxFlag);
