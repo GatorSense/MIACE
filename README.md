@@ -5,7 +5,7 @@ Matlab Implementation
 ****************************************************************
 
 NOTE: If MI-ACE or MI-SMF Algorithms are used in any publication or presentation, the following reference must be cited:  
-A. Zare, C. Jiao, T. Glenn, "Multiple Instance Hyperspectral Target Characterization," Under Review. 
+A. Zare, C. Jiao, T. Glenn, "Multiple Instance Hyperspectral Target Characterization," IEEE Trans. on Pattern Analysis and Machine Intelligence, To Appear.  
 
 ****************************************************************
 
@@ -30,7 +30,7 @@ Outputs:
 ****************************************************************
 
 Files explanation:  
-Latest Revision: June 2016
+Latest Revision: Sept. 2017
 
 +ace_det.m : ACE Target Detector Code  
 +ace_det_local.m : ACE Target Detector Code that takes in a mask for HSI  
