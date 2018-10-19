@@ -5,7 +5,10 @@ Matlab Implementation
 ****************************************************************
 
 NOTE: If MI-ACE or MI-SMF Algorithms are used in any publication or presentation, the following reference must be cited:  
-A. Zare, C. Jiao, T. Glenn, "Multiple Instance Hyperspectral Target Characterization," IEEE Trans. on Pattern Analysis and Machine Intelligence, To Appear.  
+A. Zare, C. Jiao and T. Glenn, "Discriminative Multiple Instance Hyperspectral Target Characterization," in IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 40, no. 10, pp. 2342-2354, 1 Oct. 2018.
+doi: 10.1109/TPAMI.2017.2756632
+
+NOTE: If this code is used in any publication or presentation, the following reference must be cited:
 
 ****************************************************************
 
