@@ -9,6 +9,8 @@ A. Zare, C. Jiao and T. Glenn, "Discriminative Multiple Instance Hyperspectral T
 doi: 10.1109/TPAMI.2017.2756632
 
 NOTE: If this code is used in any publication or presentation, the following reference must be cited:
+A. Zare, C. Jiao, & T. Glenn. (2018, October 19). GatorSense/MIACE: Version 1 (Version v1.0). Zenodo. http://doi.org/10.5281/zenodo.1467358
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1467358.svg)](https://doi.org/10.5281/zenodo.1467358)
 
 ****************************************************************
 
